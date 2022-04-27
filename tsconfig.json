@@ -5,7 +5,7 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
+    "strict": false,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
@@ -22,6 +22,11 @@
       "es2020",
       "dom"
     ]
+  },
+  "paths": {
+    "@app": ["/app/*"],
+    "@assets/*": ["/assets/*"],
+    "@environments/*": ["/environments/*"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
