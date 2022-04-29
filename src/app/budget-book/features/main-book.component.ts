@@ -139,8 +139,7 @@ export class MainBookComponent implements OnInit {
   ngOnInit(): void { }
 
   addItem(itemType: BudgetType) {
-    const headerText =
-      itemType === BudgetType.EXPENSE ? 'Add Expense Info' : 'Add Income Info';
+    const headerText = itemType === BudgetType.EXPENSE ? 'Add Expense Info' : 'Add Income Info';
     const dialogData: DialogData = {
       headerText: headerText,
       template: this.addItemTemplate,
@@ -153,8 +152,7 @@ export class MainBookComponent implements OnInit {
   }
 
   private editItem(budgetItem: BudgetItem, itemType: BudgetType) {
-    const headerText =
-      itemType === BudgetType.EXPENSE ? 'Edit Expense Info' : 'Edit Income Info';
+    const headerText = itemType === BudgetType.EXPENSE ? 'Edit Expense Info' : 'Edit Income Info';
 
     const dialogData: DialogData = {
       headerText: headerText,

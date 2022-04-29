@@ -1,19 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AppLogoComponent } from './app-logo.component';
-
+import { GithubComponent } from './github.component';
 
 
 
 @NgModule({
   declarations: [
-    AppLogoComponent,    
+    GithubComponent
   ],
   imports: [
     CommonModule
   ],
-  exports: [
-    AppLogoComponent
-  ]
+  exports: [GithubComponent]
 })
-export class LogoModule { }
+export class IconsModule { }

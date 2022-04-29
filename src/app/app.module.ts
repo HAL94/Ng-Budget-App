@@ -5,7 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogModule } from './shared/dialog/dialog.module';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { IconsModule } from './shared/icons/icons.module';
+import materialImports from './material.imports';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     AppRoutingModule,
     DialogModule,
     BrowserAnimationsModule,
-    MatSnackBarModule
+    IconsModule,
+    ...materialImports
   ],
   providers: [],
   bootstrap: [AppComponent]

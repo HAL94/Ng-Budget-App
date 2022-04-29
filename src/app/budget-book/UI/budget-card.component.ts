@@ -11,7 +11,7 @@ import { BudgetType } from '../data-access/budget-types.enum';
         <div class="rounded p-3 text-white" [ngClass]="budgetCardType === BUDGET_TYPES.INCOME ? 'income-bg': 'expense-bg'">
           <mat-icon>{{icon}}</mat-icon>
         </div>
-        <span class="text-sm text-[#999] font-medium">{{BUDGET_TYPES[budgetCardType] | uppercase }}</span>
+        <span class="text-sm text-[#999] font-medium">{{budgetTypeText}}</span>
       </div>
       <p class="text-right font-semibold">{{ budget$ | async }}</p>
     </div>
@@ -23,12 +23,14 @@ export class BudgetCardComponent implements OnInit {
   BUDGET_TYPES = BudgetType;
   @Input() budgetCardType: BudgetType;
   @Input() icon: string;
-
+  
+  budgetTypeText: string;
   budget$: Observable<number>;
 
   constructor(private book: BookService) { }
 
   ngOnInit(): void {
+    this.budgetTypeText = this.budgetCardType === BudgetType.INCOME ? 'Income' : 'Expense';
     const budgetObs = this.budgetCardType === BudgetType.INCOME ? 
     this.book.income : this.book.expenses;
 
