@@ -1,5 +1,4 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
 import { DialogData } from 'src/app/shared/dialog/dialog-data.interface';
 import { DialogService } from 'src/app/shared/dialog/dialog.service';
 import { TableAction } from 'src/app/shared/table/table-action.interface';
@@ -60,8 +59,7 @@ import { BudgetType } from '../data-access/budget-types.enum';
               [pageSizeOptions]="pageSizeOptions"
               [tableActions]="incomeTableActions"
               [execludedColumns]="excludes">
-              <div
-                class="income-bg border rounded my-0 mx-4 p-4 shadow border-b-0 absolute -top-6 left-0 right-0 text-white">
+              <div class="income-bg border rounded my-0 mx-4 p-4 shadow border-b-0 absolute -top-6 left-0 right-0 text-white">
                 <div class="flex flex-row items-center justify-between">
                   <div class="flex flex-col items-center justify-center">
                     <h3 class="text-2xl mb-3">Income Table</h3>
@@ -84,10 +82,11 @@ import { BudgetType } from '../data-access/budget-types.enum';
         </ng-template>
 
         <ng-template let-formSubmitCb="formCb" let-budgetData="budgetData" #editItemTemplate>
-          <app-budget-form
-            [formSubmitCb]="formSubmitCb"
-            [budgetData]="budgetData"
-          ></app-budget-form>
+          <app-budget-form [formSubmitCb]="formSubmitCb" [budgetData]="budgetData" ></app-budget-form>
+        </ng-template>
+
+        <ng-template let-budgetItem="budgetItem" let-budgetType="budgetType" #confirmDeleteTemplate>
+          <app-budget-item-confirm-delete [budgetType]="budgetType" [budgetItem]="budgetItem"></app-budget-item-confirm-delete>
         </ng-template>
       </div>
     </main>
@@ -103,15 +102,13 @@ export class MainBookComponent implements OnInit {
   expenseTableActions: TableAction[] = [
     {
       actionIcon: 'edit',
-      class: '!text-[#5bd75b]',
       actionCb: (budgetItem: BudgetItem) =>
         this.editItem(budgetItem, this.EXPENSE),
     },
     {
       actionIcon: 'delete',
-      class: '!text-[#d52c2c]',
       actionCb: (budgetItem: BudgetItem) => {
-        this.book.deleteItem(budgetItem, this.EXPENSE);
+        this.openConfirmDeleteDialog(budgetItem, this.EXPENSE)
       },
     },
   ];
@@ -125,13 +122,15 @@ export class MainBookComponent implements OnInit {
     {
       actionIcon: 'delete',
       actionCb: (budgetItem: BudgetItem) => {
-        this.book.deleteItem(budgetItem, this.INCOME);
+        this.openConfirmDeleteDialog(budgetItem, this.INCOME)
       },
     },
   ];
 
   @ViewChild('addItemTemplate') addItemTemplate: TemplateRef<any>;
   @ViewChild('editItemTemplate') editItemTemplate: TemplateRef<any>;
+  @ViewChild('confirmDeleteTemplate') confirmDeleteTemplate: TemplateRef<any>;
+
 
   private DIALGUE_OPTIONS = { width: '50vw', disableClose: false };
 
@@ -163,6 +162,21 @@ export class MainBookComponent implements OnInit {
       context: {
         formCb: (budgetItem: BudgetItem) => this.book.editItem(budgetItem, itemType),
         budgetData: budgetItem,
+      },
+    };
+
+    this.dialog.openDialog(dialogData, this.DIALGUE_OPTIONS);
+  }
+
+  private openConfirmDeleteDialog(budgetItem: BudgetItem, itemType: BudgetType) {
+    const headerText = 'Confirm Record Delete';
+
+    const dialogData: DialogData = {
+      headerText: headerText,
+      template: this.confirmDeleteTemplate,
+      context: {
+        budgetItem: budgetItem,
+        budgetType: itemType
       },
     };
 

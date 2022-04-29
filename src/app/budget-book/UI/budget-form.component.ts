@@ -14,9 +14,12 @@ import { BudgetItem } from '../data-access/budget-item.model';
         <mat-label>Description</mat-label>
         <textarea type="text" matInput formControlName="description" placeholder="Description"></textarea>
       </mat-form-field>
-      <div *ngIf="amount.invalid && (amount.touched || amount.dirty)" class="bg-green-100 py-5 px-6 mb-4 text-base text-green-700" role="alert">
+      <div *ngIf="amount.invalid && (amount.touched || amount.dirty)" class="bg-green-100 py-2 px-3 mb-4 text-base text-green-700" role="alert">
         <span *ngIf="amount.getError('min')">
           That amount does not look right...
+        </span>
+        <span *ngIf="amount.getError('required')">
+          You must enter an amount value...
         </span>
       </div>
       <mat-form-field appearance="fill" class="w-full">
@@ -61,7 +64,7 @@ export class BudgetFormComponent implements OnInit {
 
     this.budgetForm = this.fb.group({
       name: [notPopulated ? '' : this.budgetData.name, Validators.required],
-      description: [notPopulated ? '' : this.budgetData.description, Validators.required],
+      description: [notPopulated ? '' : this.budgetData.description],
       amount: [notPopulated ? '' : this.budgetData.amount, [Validators.required, Validators.min(1)]]
     });
 

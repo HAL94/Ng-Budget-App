@@ -21,7 +21,9 @@ import { TableAction } from './table-action.interface';
             <ng-container matColumnDef="propName">
                 <th mat-header-cell *matHeaderCellDef>{{propName | uppercase}}</th>
                 <td mat-cell *matCellDef="let element" class="text-left cursor-pointer">
-                    <mat-icon *ngFor="let action of tableActions" (click)="action.actionCb(element)" [ngClass]="action.class">{{action.actionIcon}}</mat-icon>
+                    <ng-container *ngFor="let action of tableActions">
+                      <mat-icon (click)="action.actionCb(element)" [ngClass]="{'!text-[#5bd75b]' : action.actionIcon === 'edit', '!text-[#d52c2c]': action.actionIcon === 'delete'}">{{action.actionIcon}}</mat-icon>
+                    </ng-container>
                 </td>                
             </ng-container>
           </ng-template>
@@ -70,7 +72,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    console.log(this.tableActions);
   }
 
   private initTable(): void {

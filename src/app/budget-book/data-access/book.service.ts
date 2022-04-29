@@ -76,6 +76,9 @@ export class BookService {
       budgetList.splice(itemIndex, 1);
       this.broadcastList(budgetList, itemType);
       this.updateBudget();
+      const snackbarMessage = `Deleted: ${item.name}`;
+      this.dialog.closeDialog();
+      this.snackbar.open(snackbarMessage, null, { duration: 2000, verticalPosition: 'top' });
     }
   }
 

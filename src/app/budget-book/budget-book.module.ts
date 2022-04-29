@@ -10,6 +10,7 @@ import { BudgetFormComponent } from './UI/budget-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import materialImports from './material.imports';
 import { BudgetCardComponent } from './UI/budget-card.component';
+import { BudgetItemConfirmDeleteComponent } from './UI/budget-item-confirm-delete.component';
 
 const routes: Routes = [
   { path: '', component: MainBookComponent }
@@ -20,7 +21,8 @@ const routes: Routes = [
     MainBookComponent,
     NetBudgetComponent,
     BudgetFormComponent,
-    BudgetCardComponent
+    BudgetCardComponent,
+    BudgetItemConfirmDeleteComponent
   ],
   imports: [
     CommonModule,
