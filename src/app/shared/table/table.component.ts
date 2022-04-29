@@ -21,7 +21,7 @@ import { TableAction } from './table-action.interface';
             <ng-container matColumnDef="propName">
                 <th mat-header-cell *matHeaderCellDef>{{propName | uppercase}}</th>
                 <td mat-cell *matCellDef="let element" class="text-left cursor-pointer">
-                    <mat-icon *ngFor="let action of tableActions" (click)="action.actionCb(element)">{{action.actionIcon}}</mat-icon>
+                    <mat-icon *ngFor="let action of tableActions" (click)="action.actionCb(element)" [ngClass]="action.class">{{action.actionIcon}}</mat-icon>
                 </td>                
             </ng-container>
           </ng-template>
@@ -46,16 +46,17 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() data: any[];
   @Input() pageSizeOptions: number[];
   @Input() tableActions: TableAction[];
+  @Input() execludedColumns: string[];
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  
+
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   displayedColumns: string[];
   dataSize: number;
   displaySize: number;
-  
+
   constructor() { }
 
   ngOnInit(): void {
@@ -69,13 +70,14 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    console.log(this.tableActions);
   }
 
   private initTable(): void {
-    this.displayedColumns = [...this.dataProperties, 'action'];
+    this.displayedColumns = [...this.dataProperties.filter((col: string) => !this.execludedColumns.includes(col)), 'action'];
     this.dataSource.data = this.data;
     this.dataSize = this.data.length;
-    this.displaySize = this.pageSizeOptions[0];    
+    this.displaySize = this.pageSizeOptions[0];
   }
 
   applyFilter(event: Event) {
